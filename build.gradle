@@ -1,4 +1,6 @@
 plugins {
+	id 'java'
+	id 'scala'
 	id 'fabric-loom' version '0.5-SNAPSHOT'
 	id 'maven-publish'
 }
@@ -21,6 +23,10 @@ dependencies {
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
+
+	modApi("net.fabricmc:fabric-language-scala:0.3.2.+") {
+		exclude group: 'net.fabricmc'
+	}
 }
 
 processResources {
@@ -28,6 +34,17 @@ processResources {
 
 	filesMatching("fabric.mod.json") {
 		expand "version": project.version
+	}
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = []
+		}
+		scala {
+			srcDirs = ['src/main/scala', 'src/main/java']
+		}
 	}
 }
 
